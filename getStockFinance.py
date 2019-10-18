@@ -16,7 +16,7 @@ def spiderStockFinance(stockCode):
     #print(url)
 
     data = requests.get(url, headers=headers)
-    soup = BeautifulSoup(data.text, 'lxml')
+    soup = BeautifulSoup(data.text, 'html.parser')
 
     table = soup.findAll('table', {'class': 'table_bg001 border_box limit_sale scr_table'})[0]
     rows = table.findAll('tr')
@@ -41,7 +41,7 @@ def Format(rows,stockCode):
             csvRow2.append(cell.get_text().replace(',', ''))
     #print(csvRow2)
     #print(csvRow3)
-    toMysql(csvRow1[1:17],csvRow2[1:17],stockCode)
+    toMysql(csvRow1[1:26],csvRow2[1:26],stockCode)
 
 
 def toMysql(rows1,rows2,stockCode):
