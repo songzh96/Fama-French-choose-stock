@@ -16,7 +16,7 @@ def spiderStockFinance(stockCode):
     #print(url)
 
     data = requests.get(url, headers=headers)
-    soup = BeautifulSoup(data.text, 'lxml')
+    soup = BeautifulSoup(data.text, 'html.parser')
 
     table = soup.findAll('table', {'class': 'table_bg001 border_box'})[0]
     rows = table.findAll('tr')
