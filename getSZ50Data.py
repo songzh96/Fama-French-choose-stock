@@ -20,7 +20,7 @@ def spider(year,season):
     #print(url)
 
     data = requests.get(url, headers=headers)
-    soup = BeautifulSoup(data.text, 'lxml')
+    soup = BeautifulSoup(data.text, 'html.parser')
 
     table = soup.findAll('table', {'class': 'table_bg001 border_box limit_sale'})[0]
     rows = table.findAll('tr')
@@ -78,7 +78,7 @@ def getSZ50Data(beginYear, endYear):
 def main():
 
     #获取上证50指数数据
-    getSZ50Data(2013,2016)
+    getSZ50Data(2015,2018)
 
 
 
