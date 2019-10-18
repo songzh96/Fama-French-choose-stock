@@ -21,7 +21,7 @@ def spider(stockCode,year,season):
     #print(url)
 
     data = requests.get(url, headers=headers)
-    soup = BeautifulSoup(data.text, 'lxml')
+    soup = BeautifulSoup(data.text, 'html.parser')
 
     table = soup.findAll('table', {'class': 'table_bg001'})[0]
     rows = table.findAll('tr')
@@ -112,9 +112,10 @@ def toMysql(rows,stockCode,assets):
 
     captailStock = getCaptailStock(stockCode)
     captailStock = float(captailStock)
+    # rows[4] is close_price, rows[0] is date
     rows[4] = float(rows[4])
     marketcap = rows[4]*captailStock
-    bm = marketcap/assets
+    bm = marketcap/(assets/10000) #将数据转为同一单位
     try:
         #获取会话指针
         with conn.cursor() as cursor:
@@ -155,10 +156,10 @@ def main():
                  '601818', '601857', '601899', '601901', '601989']
     #获取列表中所有股票的数据
     for i in range(0,49):
-        getStockData(stocklist[i],2013,2016)
+        getStockData(stocklist[i],2015,2018)
 
 
 
-# ps:删除数据库某个表的所有数据并将ID置1 TURNCATE TABLE 表名
+# ps:删除数据库某个表的所有数据并将ID置1 TRUNCATE TABLE 表名
 if __name__ == '__main__':
     main()
