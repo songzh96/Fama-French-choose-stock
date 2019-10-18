@@ -1,12 +1,13 @@
 # coding:utf-8
-import pandas as pd
-from sqlalchemy import create_engine
 import numpy as np
+import pandas as pd
+import pymysql
 import matplotlib.pyplot as plt
-from statsmodels.formula.api import ols
+import pylab
 import statsmodels.api as sm
 from statsmodels import regression
-import pylab
+from statsmodels.formula.api import ols
+
 pylab.mpl.rcParams['font.sans-serif'] = ['SimHei']
 pylab.mpl.rcParams['axes.unicode_minus'] = False
 # ********************基础知识***************************
@@ -56,7 +57,9 @@ pylab.mpl.rcParams['axes.unicode_minus'] = False
 # ******************开始****************************
 # ******************全局变量*************************
 #-----------------------获取所有交易日期
-engine = create_engine('mysql://root:@localhost/testdata?charset=utf8')
+engine = pymysql.connect(host="localhost", user="root",
+                     password="", database="testdata",
+                     charset="utf8")
 
 #由于股票存在停牌的不交易日，经过检测，概率最大的是971个交易日，所以我们选取此股票日期作为基准
 date_df = pd.read_sql("SELECT  `code`, `date` FROM `stockdata` WHERE `code` = '600028'",engine)
@@ -154,7 +157,7 @@ def  getStockMc(stocklist,t,datelist):
         if (i == x-1):
             # 最后日期处理
             date1 = datelist[::t][i]
-            date2 = '2016-12-31'
+            date2 = pd.to_datetime("2018-12-31").date()
         else:
             # 分割日期
             date1 = datelist[::t][i]
@@ -174,7 +177,7 @@ def  getStockDr(stocklist,t,datelist):
     for i in range(0,x):
         if (i == x-1):
             date1 = datelist[::t][i]
-            date2 = '2016-12-31'
+            date2 = pd.to_datetime("2018-12-31").date()
         else:
             date1 = datelist[::t][i]
             date2 = datelist[::t][i + 1]
@@ -191,7 +194,7 @@ def  getStockCl(stocklist,t,datelist):
     for i in range(0,x):
         if (i == x-1):
             date1 = datelist[::t][i]
-            date2 = '2016-12-31'
+            date2 = pd.to_datetime("2018-12-31").date()
         else:
             date1 = datelist[::t][i]
             date2 = datelist[::t][i + 1]
@@ -208,7 +211,7 @@ def  getStockBm(stocklist,t,datelist):
     for i in range(0,x):
         if (i == x-1):
             date1 = datelist[::t][i]
-            date2 = '2016-12-31'
+            date2 = pd.to_datetime("2018-12-31").date()
         else:
             date1 = datelist[::t][i]
             date2 = datelist[::t][i + 1]
@@ -227,7 +230,7 @@ def getSZ50(t):
     for i in range(0,x):
         if (i == x-1):
             date1 = datelist[::t][i]
-            date2 = '20161231'
+            date2 = pd.to_datetime("2018-12-31").date()
         else:
             date1 = datelist[::t][i]
             date2 = datelist[::t][i + 1]
@@ -454,6 +457,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
