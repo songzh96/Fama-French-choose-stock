@@ -115,7 +115,7 @@ def toMysql(rows,stockCode,assets):
     # rows[4] is close_price, rows[0] is date
     rows[4] = float(rows[4])
     marketcap = rows[4]*captailStock
-    bm = marketcap/(assets/10000) #将数据转为同一单位
+    bm = (assets/10000)/marketcap #将数据转为同一单位
     try:
         #获取会话指针
         with conn.cursor() as cursor:
