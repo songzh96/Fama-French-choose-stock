@@ -323,7 +323,7 @@ def linreg(X,Y,columns=3):
 def withCapital(stocksScores,StockClDf,money):
     # 选取stocks中的前五只股票
     # print(stocksScores[-5:])
-    stocks = stocksScores[23:28]['code'].values
+    stocks = stocksScores[-5:]['code'].values
     # 选取前五只股票的收盘价
     stocks = StockClDf[stocks]
     # 提取日期
